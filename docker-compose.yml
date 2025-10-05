@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app
+  streamlit:
+    image: python:3.10-slim
+    command: bash -c "pip install --no-cache-dir -r requirements.txt && streamlit run frontend/app_streamlit.py --server.port=8501 --server.address=0.0.0.0"
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./:/app
+    depends_on:
+      - backend
